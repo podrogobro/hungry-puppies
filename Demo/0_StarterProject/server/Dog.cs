@@ -11,6 +11,6 @@ public record Dog(
     int Id,
     string Name,
     DogBreed? Breed,
-    int? Age,
-    DateTime LastFeedingTime
+    // Add a property storing the dog's last feeding time
+    DateTime? LastFed
 );

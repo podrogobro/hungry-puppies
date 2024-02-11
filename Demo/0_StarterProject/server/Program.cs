@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "CORS",policy  =>
     {
         policy
-            .WithOrigins("http://127.0.0.1", "http://localhost", "http://localhost:8080")
+            .WithOrigins("http://127.0.0.1", "http://localhost", "http://localhost:3000")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -52,23 +52,28 @@ app.MapGet("/dogs/{id}", async (int id, DogDbContext db) =>
 
 app.MapPost("/dogs", async (Dog dog, DogDbContext db) =>
 {
+    Console.WriteLine("POST /dogs");
+    Console.WriteLine(dog);
+
     db.Dogs.Add(dog);
     await db.SaveChangesAsync();
 
     return Results.Created($"/dogs/{dog.Id}", dog);
 });
 
-// Implement a put method to update a dog
+// Implement a PUT method to update a dog, using the injected DogDbContext
 app.MapPut("/dogs/{id}", async (int id, Dog dog, DogDbContext db) =>
 {
+    Console.WriteLine("PUT /dogs/{id}");
+    Console.WriteLine(dog);
+    
     if (id != dog.Id)
     {
-        return Results.BadRequest("Dog ID mismatch");
+        return Results.BadRequest("The ID in the URL does not match the ID in the body");
     }
 
     db.Entry(dog).State = EntityState.Modified;
     await db.SaveChangesAsync();
-
     return Results.NoContent();
 });
 
