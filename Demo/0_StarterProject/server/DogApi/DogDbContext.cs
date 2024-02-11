@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Dogs;
+namespace DogApi;
 
 public class DogDbContext : DbContext
 {

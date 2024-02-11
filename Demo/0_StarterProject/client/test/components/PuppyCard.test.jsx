@@ -6,7 +6,6 @@ describe("PuppyCard", () => {
   const puppy = {
     name: "Buddy",
     breed: "Golden Retriever",
-    age: 2,
   };
 
   it("renders the puppy's name", () => {
@@ -19,8 +18,8 @@ describe("PuppyCard", () => {
     expect(screen.getByText(puppy.breed)).toBeTruthy();
   });
 
-  it("renders the puppy's age", () => {
+  it("renders the puppy's image", () => {
     render(<PuppyCard puppy={puppy} />);
-    expect(screen.getByText(`Age: ${puppy.age}`)).toBeTruthy();
+    expect(screen.getByAltText(puppy.name)).toBeTruthy();
   });
 });

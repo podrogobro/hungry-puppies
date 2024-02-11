@@ -1,4 +1,4 @@
-namespace Dogs;
+namespace DogApi;
 
 public enum DogBreed {
     Beagle,

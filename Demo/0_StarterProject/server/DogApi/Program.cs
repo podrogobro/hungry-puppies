@@ -1,7 +1,8 @@
 using System.Text.Json.Serialization;
-using Dogs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
+using DogApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +67,7 @@ app.MapPut("/dogs/{id}", async (int id, Dog dog, DogDbContext db) =>
 {
     Console.WriteLine("PUT /dogs/{id}");
     Console.WriteLine(dog);
-    
+
     if (id != dog.Id)
     {
         return Results.BadRequest("The ID in the URL does not match the ID in the body");
@@ -91,3 +92,5 @@ app.MapDelete("/dogs/{id}", async (int id, DogDbContext db) =>
 });
 
 await app.RunAsync();
+
+public partial class Program { }
