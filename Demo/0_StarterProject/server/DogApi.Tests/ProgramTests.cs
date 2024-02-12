@@ -1,15 +1,16 @@
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 
 namespace DogApi.Tests;
 
-public class DogsApiTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class DogsApiTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
-    public DogsApiTests(CustomWebApplicationFactory<Program> factory)
+    public DogsApiTests(WebApplicationFactory<Program> factory)
     {
         _client = factory.CreateClient();
     }
@@ -23,17 +24,18 @@ public class DogsApiTests : IClassFixture<CustomWebApplicationFactory<Program>>
         // Act
         var response = await _client.PostAsJsonAsync("/dogs", dog);
 
-        Console.WriteLine(await response.Content.ReadAsStringAsync());
-
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-   
-        var options = new JsonSerializerOptions();
-        options.Converters.Add(new JsonStringEnumConverter());
 
-        // TODO: Fix this
-        var returnedDog = await response.Content.ReadFromJsonAsync<Dog>(options);
+        var returnedDog = await response.Content.ReadFromJsonAsync<Dog>(new JsonSerializerOptions{
+            Converters = { new JsonStringEnumConverter() },
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
+        });
+
+        Assert.NotNull(returnedDog);
 
         Assert.Equal(dog.Name, returnedDog.Name);
+        Assert.Equal(dog.Breed, returnedDog.Breed);
+        Assert.Equal(dog.LastFed, returnedDog.LastFed);
     }
 }

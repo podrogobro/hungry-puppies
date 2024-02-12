@@ -54,7 +54,6 @@ app.MapGet("/dogs/{id}", async (int id, DogDbContext db) =>
 app.MapPost("/dogs", async (Dog dog, DogDbContext db) =>
 {
     Console.WriteLine("POST /dogs");
-    Console.WriteLine(dog);
 
     db.Dogs.Add(dog);
     await db.SaveChangesAsync();
@@ -66,7 +65,6 @@ app.MapPost("/dogs", async (Dog dog, DogDbContext db) =>
 app.MapPut("/dogs/{id}", async (int id, Dog dog, DogDbContext db) =>
 {
     Console.WriteLine("PUT /dogs/{id}");
-    Console.WriteLine(dog);
 
     if (id != dog.Id)
     {
@@ -81,6 +79,8 @@ app.MapPut("/dogs/{id}", async (int id, Dog dog, DogDbContext db) =>
 
 app.MapDelete("/dogs/{id}", async (int id, DogDbContext db) =>
 {
+    Console.WriteLine("DELETE /dogs/{id}");
+    
     if (await db.Dogs.FindAsync(id) is Dog dog)
     {
         db.Dogs.Remove(dog);
