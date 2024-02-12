@@ -5,3 +5,8 @@ The starter project contains some example unit tests both for the client applica
 To run the integration tests for the API, execute the `dotnet test` command in the `server` directory.
 
 In this demo we are going to implement some unit tests for the newly implemented puppy feeding functionality that we've seen in the code generation demo.
+
+TODO prompts for tests regarding this feed functionalitz
+
+- PUT endpoint
+- Feed button onclick - make sure that the endpoint is called mock jest.nf
