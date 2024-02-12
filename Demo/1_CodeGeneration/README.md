@@ -24,6 +24,8 @@ We can start by getting a short summary of the functionality implemented
 
 - Summarise the functionality implemented by this API (reference `Program.cs`)
 
+TODO
+
 ## Code generation
 
 Once we have an overall understanding of the project, we can start adding the desired functionality.
