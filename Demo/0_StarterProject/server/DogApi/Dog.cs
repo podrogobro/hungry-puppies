@@ -1,16 +1,19 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace DogApi;
 
-public enum DogBreed {
+public enum DogBreed
+{
     Beagle,
     Husky,
     Vizsla,
     Dachshund,
 }
 
-public record Dog(
-    int Id,
-    string Name,
-    DogBreed? Breed,
-    // Add a property storing the dog's last feeding time
-    DateTime? LastFed
-);
+public class Dog
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public DogBreed? Breed { get; set; }
+    public DateTime LastFeedingTime { get; set; }
+}

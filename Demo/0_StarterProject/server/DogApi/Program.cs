@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: "CORS",policy  =>
+    options.AddPolicy(name: "CORS", policy =>
     {
         policy
             .WithOrigins("http://127.0.0.1", "http://localhost", "http://localhost:3000")
@@ -61,26 +61,29 @@ app.MapPost("/dogs", async (Dog dog, DogDbContext db) =>
     return Results.Created($"/dogs/{dog.Id}", dog);
 });
 
-// Implement a PUT method to update a dog, using the injected DogDbContext
-app.MapPut("/dogs/{id}", async (int id, Dog dog, DogDbContext db) =>
+app.MapPut("/dogs/{id}", async (int id, Dog updatedDog, DogDbContext db) =>
 {
     Console.WriteLine("PUT /dogs/{id}");
 
-    if (id != dog.Id)
+    var existingDog = await db.Dogs.FindAsync(id);
+    if (existingDog == null)
     {
-        return Results.BadRequest("The ID in the URL does not match the ID in the body");
+        return Results.NotFound();
     }
+    existingDog = updatedDog;
 
-    db.Entry(dog).State = EntityState.Modified;
+    // db.Entry(existingDog).State = EntityState.Modified;
     await db.SaveChangesAsync();
+
     return Results.NoContent();
 });
+
 
 
 app.MapDelete("/dogs/{id}", async (int id, DogDbContext db) =>
 {
     Console.WriteLine("DELETE /dogs/{id}");
-    
+
     if (await db.Dogs.FindAsync(id) is Dog dog)
     {
         db.Dogs.Remove(dog);

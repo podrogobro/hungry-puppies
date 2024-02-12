@@ -1,31 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const PuppyCard = ({ puppy, deletePuppy, feedPuppy }) => {
-  const [timeLeft, setTimeLeft] = useState(0);
-
-  const calculateTimeLeft = () => {
-    const lastFed = new Date(puppy.lastFed);
-    const now = new Date();
-    const timeSinceLastFed = now - lastFed;
-    const timeLeft = 30000 - timeSinceLastFed;
-
-    return timeLeft;
-  };
-
-  const isHungry = () => calculateTimeLeft() < 0;
-
-  useEffect(() => {
-    if (!isHungry()) {
-      const timeLeft = calculateTimeLeft();
-
-      const timer = setTimeout(() => {
-        setTimeLeft(timeLeft - 1000);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [timeLeft, puppy]);
-
   return (
     <div className="flex flex-col">
       <div className="rounded-lg overflow-hidden shadow-md min-w-32">
@@ -48,26 +23,8 @@ const PuppyCard = ({ puppy, deletePuppy, feedPuppy }) => {
           </div>
         </div>
       </div>
-
-      {isHungry() ? (
-        <button
-          type="button"
-          onClick={() => feedPuppy(puppy)}
-          className="text-white rounded-lg bg-sky-500 hover:bg-sky-700 font-medium mt-4 py-2 px-4"
-        >
-          Feed
-        </button>
-      ) : (
-        <span className="text-center mt-4">{`Next feeding in ${Math.floor(
-          timeLeft / 60000
-        )} minutes ${Math.floor((timeLeft / 1000) % 60)} seconds`}</span>
-      )}
     </div>
   );
 };
 
 export default PuppyCard;
-
-/**
-
- */

@@ -8,6 +8,11 @@ function App() {
   const [puppies, setPuppies] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  // Call fetchPuppies when the component mounts
+  React.useEffect(() => {
+    fetchPuppies();
+  }, []);
+
   const toggleModal = () => {
     setShowModal(!showModal);
   };
@@ -58,28 +63,9 @@ function App() {
     }
   };
 
-  // Implement the feedPuppy function here
-  const feedPuppy = async (puppy) => {
-    try {
-      const response = await fetch(`${URI}/${puppy.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...puppy, lastFed: new Date().toISOString() }),
-      });
-      if (response.ok) {
-        fetchPuppies();
-      }
-    } catch (error) {
-      console.error("Error feeding puppy:", error);
-    }
-  };
-
-  // Call fetchPuppies when the component mounts
-  React.useEffect(() => {
-    fetchPuppies();
-  }, []);
+  //
+  // implement the feedPuppy function here
+  //
 
   return (
     <div className="flex flex-col px-24 pt-12">
@@ -99,7 +85,7 @@ function App() {
       <PuppyGrid
         puppies={puppies}
         deletePuppy={deletePuppy}
-        feedPuppy={feedPuppy}
+        feedPuppy={() => void 0}
       />
 
       {showModal && (
