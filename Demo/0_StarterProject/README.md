@@ -1,6 +1,6 @@
 # API
 
-Run `dotnet run` from the `server` directory to start the backend
+Run `dotnet run` from the `server/DogApi` directory to start the API
 
 # Client
 
